@@ -34,15 +34,6 @@ function Login() {
       // 2. Save full user in context
       login(userData);
 
-      // 3. Save minimal auth data in localStorage
-      localStorage.setItem(
-        "authUser",
-        JSON.stringify({
-          role: userData.role,
-          isAuthenticated: userData.isAuthenticated,
-        })
-      );
-
       // 4. Redirect
       navigate("/dashboard");
     } catch (err) {

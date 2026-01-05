@@ -1,43 +1,26 @@
 export async function loginApi({ username, password }) {
-  // simulate network delay
-  await new Promise((res) => setTimeout(res, 1000));
-
-  // fake users database
-  const users = [
+  const res = await fetch(
+    "https://admin.boostmybusiness.ai/react/login.php",
     {
-      name: "Haris",
-      email: "haris@gmail.com",
-      role: "admin",
-      username: "haris",
-      password: "1234",
-      isAuthenticated: true,
-    },
-    {
-      name: "Hamza",
-      email: "hamza@gmail.com",
-      role: "manager",
-      username: "hamza",
-      password: "1234",
-      isAuthenticated: false,
-    },
-  ];
-
-  const user = users.find(
-    (u) => u.username === username && u.password === password
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ username, password }),
+    }
   );
 
-  if (!user) {
-    throw new Error("Username or password not found");
+  // ✅ READ BODY ONLY ONCE
+  const data = await res.json();
+
+  console.log(data);
+
+  if (res.status === 401) {
+    throw new Error(data.error || "Invalid username or password");
   }
 
-  if (!user.isAuthenticated) {
-    throw new Error("User is not authenticated. Please contact admin.");
+  if (!res.ok) {
+    throw new Error(data.error || "Something went wrong");
   }
 
-  return {
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    isAuthenticated: user.isAuthenticated,
-  };
+  return data;
 }

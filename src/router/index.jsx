@@ -28,6 +28,8 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
 
       { path: "login", element: <Login /> },
+      { path: "/unauthorized", element: <Unauthorized /> },
+      { path: "*", element: <NotFound /> },
 
       {
         path: "dashboard",
@@ -38,7 +40,7 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                loader: requireAuthLoader(["admin", "manager"]),
+                // loader: requireAuthLoader(["admin", "manager"]),
                 element: <DashboardHome />,
               },
 
@@ -60,8 +62,7 @@ const router = createBrowserRouter([
     ],
   },
 
-  { path: "/unauthorized", element: <Unauthorized /> },
-  { path: "*", element: <NotFound /> },
+  
 ]);
 
 export default router;
